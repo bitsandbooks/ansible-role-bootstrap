@@ -1,0 +1,14 @@
+---
+- name: ensure presence of common ubuntu packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - bash-completion
+    - ca-certificates
+    - curl
+    - git
+    - vim
+  tags:
+    - ubuntu
+    - linux
