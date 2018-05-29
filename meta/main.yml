@@ -1,6 +1,6 @@
 galaxy_info:
   author: Rob Dumas
-  description: This playbook provides basic tasks used on all of my systems
+  description: Provides basic tasks used on all of my systems
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
