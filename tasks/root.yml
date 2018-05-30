@@ -22,7 +22,7 @@
 
 - name: root - ensure presence, permissions of default ssh config file
   copy:
-    src: ssh.config
+    src: ssh-config.txt
     dest: /root/.ssh/config
     mode: 0600
     owner: root
