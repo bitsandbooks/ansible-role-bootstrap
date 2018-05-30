@@ -4,11 +4,29 @@
     name: "{{ item }}"
     state: present
   with_items:
+    - apt-transport-https
     - bash-completion
     - ca-certificates
     - curl
+    - fail2ban
     - git
+    - software-properties-common
+    - ufw
     - vim
+  notify:
+    - start fail2ban
+    - start ufw
+  tags:
+    - ubuntu
+    - linux
+
+- name: get rid of annoying help text in `/etc/update-motd.d/`
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /etc/update-motd.d/10-help-text
+    - /etc/update-motd.d/51-cloudguest
   tags:
     - ubuntu
     - linux
