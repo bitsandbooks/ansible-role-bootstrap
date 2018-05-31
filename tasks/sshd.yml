@@ -1,5 +1,5 @@
 ---
-- name: ssh - ensure x11 forwarding is off
+- name: sshd - ensure x11 forwarding is off
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^X11Forwarding '
