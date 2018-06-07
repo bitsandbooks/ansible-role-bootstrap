@@ -37,24 +37,6 @@
     - /etc/skel/.ssh/sockets
   tags: always
 
-- name: skel - ensure presence of default ssh config file
-  copy:
-    src: ssh-config.txt
-    dest: /etc/skel/.ssh/config
-    mode: 0600
-    owner: root
-    group: root
-  tags: always
-
-- name: skel - ensure presence of default ssh config file
-  copy:
-    src: ssh-config.txt
-    dest: /etc/skel/.ssh/config
-    mode: 0600
-    owner: root
-    group: root
-  tags: always
-
 - name: skel - ensure presence, permissions of ssh files
   copy:
     src: "{{ item.src }}"
