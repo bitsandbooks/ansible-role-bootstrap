@@ -1,7 +1,14 @@
 ---
+- name: ensure presence of {{ default_group.name }} group
+  group:
+    name: "{{ default_group.name }}"
+    gid: "{{ default_group.gid }}"
+
 - name: os-specific bootstrap tasks
   include: 'os-{{ ansible_distribution }}.yml'
-  tags: always
+  tags: 
+    - always
+    - nihilsum
 
 - import_tasks: root.yml
 - import_tasks: skel.yml
