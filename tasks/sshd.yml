@@ -5,3 +5,14 @@
     regexp: '^X11Forwarding '
     line: 'X11Forwarding no'
   tags: always
+
+- name: sshd - ensure ssh can get through the firewall
+  ufw:
+    rule: allow
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+  with_items:
+    - port: 22 # ssh
+      protocol: "tcp"
+  when: (ansible_distribution == "Ubuntu") or
+        (ansible_distribution == "Debian")
