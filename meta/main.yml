@@ -1,6 +1,7 @@
 galaxy_info:
+  role_name: bootstrap
   author: Rob Dumas
-  description: Provides basic tasks used on all of my systems
+  description: Common plays for all nodes.
 
   license: BSD
 
