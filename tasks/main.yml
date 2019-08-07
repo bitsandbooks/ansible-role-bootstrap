@@ -1,16 +1,21 @@
 ---
-- name: ensure presence of {{ default_group.name }} group
+- name: ensure presence of default group "{{ default_group.name }}"
   group:
     name: "{{ default_group.name }}"
     gid: "{{ default_group.gid }}"
 
-- name: os-specific bootstrap tasks
-  include: 'os-{{ ansible_distribution }}.yml'
-  tags: 
-    - always
-    - nihilsum
+- name: ensure timezone is set to utc
+  timezone:
+    name: UTC
+
+- name: ensure x11 forwarding is off for sshd
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^X11Forwarding '
+    line: 'X11Forwarding no'
+
+- name: "{{ ansible_distribution|lower }}-specific bootstrap tasks"
+  include: 'os-{{ ansible_distribution|lower }}.yml'
 
 - import_tasks: root.yml
 - import_tasks: skel.yml
-- import_tasks: sshd.yml
-- import_tasks: timezone.yml

@@ -9,16 +9,14 @@
   with_items:
     - /root/.ssh
     - /root/.ssh/sockets
-  tags: always
 
 - name: root - ensure presence, permissions of `/root/.ssh/authorized_keys`
   file:
     dest: /root/.ssh/authorized_keys
     state: file
-    mode: 0644
+    mode: 0600
     owner: root
     group: root
-  tags: always
 
 - name: root - ensure presence, permissions of default ssh config file
   copy:
@@ -27,4 +25,9 @@
     mode: 0600
     owner: root
     group: root
-  tags: always
+
+# - name: root - disable root ssh login
+#   lineinfile:
+#     path: /etc/ssh/sshd_config
+#     regex: '^#PermitRootLogin '
+#     line: 'PermitRootLogin no'

@@ -1,5 +1,0 @@
----
-- name: timezone - ensure timezone is set to utc
-  timezone:
-    name: UTC
-  tags: always

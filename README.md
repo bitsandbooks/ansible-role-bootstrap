@@ -1,33 +1,30 @@
-ns-bootstrap
-=========
+# Bootstrap
 
-The **ns-bootstrap** role is a basic role used by all systems I currently run. 
+Common plays for all nodes.
 
-Requirements
-------------
+## Requirements
 
-No known requirements beyond basic Ansible installation.
+None
 
-Dependencies
-------------
+## Role Variables
 
-No known dependencies.
+- `default_group.name` and `default_group.gid` are the default group for all nodes
+- `default_ssh_port` is the default port on which SSH will listen
 
-Example Playbook
-----------------
+## Dependencies
 
-This playbook requires no parameters. Just add it to your list of roles, like so:
+None
+
+## Example Playbook
 
     - hosts: servers
       roles:
-         - { role: bitsandbooks.ns-bootstrap }
+         - ns/bootstrap
 
-License
--------
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
-By [Rob Dumas](https://github.com/bitsandbooks)
+[Rob Dumas](https://robdumas.com/).
