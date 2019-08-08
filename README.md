@@ -19,7 +19,7 @@ None
 
     - hosts: servers
       roles:
-         - ns/bootstrap
+         - bitsandbooks.bootstrap
 
 ## License
 
