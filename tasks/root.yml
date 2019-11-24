@@ -25,9 +25,3 @@
     mode: 0600
     owner: root
     group: root
-
-# - name: root - disable root ssh login
-#   lineinfile:
-#     path: /etc/ssh/sshd_config
-#     regex: '^#PermitRootLogin '
-#     line: 'PermitRootLogin no'

@@ -4,18 +4,27 @@
     name: "{{ default_group.name }}"
     gid: "{{ default_group.gid }}"
 
+- name: ensure presence of default system-specific mount point for data at /srv/{{ ansible_hostname }}
+  file:
+    name: "/srv/{{ ansible_hostname }}"
+    state: directory
+    owner: root
+    group: "{{ default_group.name }}"
+    mode: 0770
+
+- name: ensure /srv/{{ ansible_hostname }} is symlinked to /srv/local
+  file:
+    src: "/srv/{{ ansible_hostname }}"
+    dest: /srv/local
+    state: link
+
 - name: ensure timezone is set to utc
   timezone:
     name: UTC
 
-- name: ensure x11 forwarding is off for sshd
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: '^X11Forwarding '
-    line: 'X11Forwarding no'
-
-- name: "{{ ansible_distribution|lower }}-specific bootstrap tasks"
-  include: 'os-{{ ansible_distribution|lower }}.yml'
+- name: "{{ ansible_os_family|lower }}-specific bootstrap tasks"
+  include: 'os-{{ ansible_os_family|lower }}.yml'
 
 - import_tasks: root.yml
 - import_tasks: skel.yml
+- import_tasks: sshd.yml

@@ -1,0 +1,19 @@
+---
+- name: sshd - ensure x11 forwarding is off
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^X11Forwarding '
+    line: 'X11Forwarding no'
+
+- name: root - disable root ssh login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regex: '^#PermitRootLogin '
+    line: 'PermitRootLogin no'
+
+- name: sshd - ensure ssh can get through the firewall
+  ufw:
+    rule: allow
+    port: 22
+    proto: "tcp"
+  when: ansible_facts['os_family'] == "Debian"
