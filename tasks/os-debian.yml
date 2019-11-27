@@ -46,7 +46,7 @@
 
 - name: "({{ ansible_os_family|lower }}-specific) ensure fail2ban jail.local is present"
   copy:
-    src: jail.local
+    src: jail.local.txt
     dest: /etc/fail2ban/jail.local
     mode: 0600
     owner: root
