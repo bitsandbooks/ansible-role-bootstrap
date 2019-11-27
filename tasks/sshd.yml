@@ -10,10 +10,3 @@
     path: /etc/ssh/sshd_config
     regex: '^#PermitRootLogin '
     line: 'PermitRootLogin no'
-
-- name: sshd - ensure ssh can get through the firewall
-  ufw:
-    rule: allow
-    port: 22
-    proto: "tcp"
-  when: ansible_facts['os_family'] == "Debian"

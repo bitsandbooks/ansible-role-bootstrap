@@ -25,6 +25,4 @@
 - name: "{{ ansible_os_family|lower }}-specific bootstrap tasks"
   include: 'os-{{ ansible_os_family|lower }}.yml'
 
-- import_tasks: root.yml
-- import_tasks: skel.yml
 - import_tasks: sshd.yml
