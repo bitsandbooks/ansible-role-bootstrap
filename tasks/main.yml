@@ -4,20 +4,6 @@
     name: "{{ default_group.name }}"
     gid: "{{ default_group.gid }}"
 
-- name: ensure presence of default system-specific mount point for data at /srv/{{ ansible_hostname }}
-  file:
-    name: "/srv/{{ ansible_hostname }}"
-    state: directory
-    owner: root
-    group: "{{ default_group.name }}"
-    mode: 0770
-
-- name: ensure /srv/{{ ansible_hostname }} is symlinked to /srv/local
-  file:
-    src: "/srv/{{ ansible_hostname }}"
-    dest: /srv/local
-    state: link
-
 - name: ensure timezone is set to utc
   timezone:
     name: UTC

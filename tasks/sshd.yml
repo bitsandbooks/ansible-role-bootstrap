@@ -5,7 +5,7 @@
     regexp: '^X11Forwarding '
     line: 'X11Forwarding no'
 
-- name: root - disable root ssh login
+- name: sshd - disable root ssh login
   lineinfile:
     path: /etc/ssh/sshd_config
     regex: '^#PermitRootLogin '
