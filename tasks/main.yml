@@ -6,9 +6,9 @@
 
 - name: ensure timezone is set to utc
   timezone:
-    name: UTC
+    name: Etc/UTC
 
-- name: "{{ ansible_os_family|lower }}-specific bootstrap tasks"
-  include: 'os-{{ ansible_os_family|lower }}.yml'
+- name: "{{ ansible_distribution|lower }}-specific bootstrap tasks"
+  include: 'os-{{ ansible_distribution|lower }}.yml'
 
 - import_tasks: sshd.yml
