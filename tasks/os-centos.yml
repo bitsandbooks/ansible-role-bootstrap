@@ -1,5 +1,5 @@
 ---
-- name: "({{ ansible_os_family|lower }}-specific) ensure presence of common {{ ansible_os_family|lower }} packages"
+- name: "({{ ansible_distribution|lower }}-specific) ensure presence of common {{ ansible_os_family|lower }} packages"
   package:
     name: "{{ item }}"
     state: present

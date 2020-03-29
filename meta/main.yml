@@ -13,7 +13,6 @@ galaxy_info:
         - xenial
         - bionic
         - eoan
-        # - focal # coming soon
     - name: CentOS
       versions:
         - 7
