@@ -8,7 +8,7 @@ None
 
 ## Role Variables
 
-- `default_group.name` and `default_group.gid` are the default group for all nodes
+- `default_group` and `default_group_gid` are the default group for all nodes
 - `default_ssh_port` is the default port on which SSH will listen
 
 ## Dependencies
