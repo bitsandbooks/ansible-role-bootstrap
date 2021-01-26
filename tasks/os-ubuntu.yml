@@ -20,11 +20,12 @@
 
 - name: "({{ ansible_distribution|lower }}-specific) get rid of annoying help text in `/etc/update-motd.d/`"
   file:
-    path: "{{ item }}"
+    path: "/etc/update-motd.d/{{ item }}"
     state: absent
   with_items:
-    - /etc/update-motd.d/10-help-text
-    - /etc/update-motd.d/51-cloudguest
+    - 10-help-text
+    - 50-motd-news
+    - 51-cloudguest
 
 - name: "({{ ansible_distribution|lower }}-specific) ensure ufw is enabled and default outgoing policy is 'allow'"
   ufw:
