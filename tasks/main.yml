@@ -1,5 +1,5 @@
 ---
-- name: ensure presence of default group "{{ default_group.name }}"
+- name: ensure presence of default group "{{ default_group }}"
   group:
     name: "{{ default_group }}"
     gid: "{{ default_group_gid }}"
