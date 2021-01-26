@@ -9,7 +9,7 @@
     name: Etc/UTC
 
 - name: "{{ ansible_distribution|lower }}-specific bootstrap tasks"
-  import_tasks: "os-{{ ansible_distribution|lower }}.yml"
+  include: "os-{{ ansible_distribution|lower }}.yml"
 
 - name: ensure sshd settings applied
   import_tasks: sshd.yml
