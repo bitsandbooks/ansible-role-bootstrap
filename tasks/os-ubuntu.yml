@@ -4,18 +4,21 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - apt-transport-https
-    - bash-completion
-    - ca-certificates
-    - curl
-    - fail2ban
-    - git
-    - python3-pip
-    - python3-venv
-    - software-properties-common
-    - tasksel
-    - ufw
-    - vim
+    - apt-file                   # list contents of packages
+    - apt-transport-https        # HTTPS support for apt tools
+    - bash-completion            # for peace of mind when using terminal
+    - ca-certificates            # certificate authority data
+    - curl                       # command line HTTP client
+    - fail2ban                   # ban denial-of-service network traffic
+    - git                        # revision control tool
+    - python3-pip                # necessary for ansible?
+    - python3-venv               # for python virtual environments
+    - software-properties-common # provides `add-apt-repository`
+    - tasksel                    # quickly install common package collections
+    - ufw                        # uncomplicated firewall
+    - whois                      # provides `mkpasswd`
+    - vim                        # visual text editor
+    - zsh                        # shell of choice
   notify:
     - start fail2ban
     - start ufw

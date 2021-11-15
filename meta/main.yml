@@ -35,6 +35,7 @@ galaxy_info:
         - bionic
         - focal
         - hirsute
+        - impish
 
   galaxy_tags:
     - bootstrap
