@@ -1,5 +1,5 @@
 ---
-- name: "({{ ansible_distribution|lower }}-specific) ensure presence of common {{ ansible_distribution|lower }} packages"
+- name: "({{ ansible_distribution|lower }}-specific) ensure presence of commonly-used packages selected for install"
   package:
     name: "{{ item }}"
     state: present
@@ -22,6 +22,13 @@
   notify:
     - start fail2ban
     - start ufw
+
+- name: "({{ ansible_distribution|lower }}-specific) ensure absence of packages selected for removal"
+  package:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - cloud-init # unneeded after install
 
 - name: "({{ ansible_distribution|lower }}-specific) get rid of annoying help text in `/etc/update-motd.d/`"
   file:
