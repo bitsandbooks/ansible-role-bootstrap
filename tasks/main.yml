@@ -1,15 +1,15 @@
 ---
 - name: ensure presence of default group "{{ default_group }}"
-  group:
+  ansible.builtin.group:
     name: "{{ default_group }}"
     gid: "{{ default_group_gid }}"
 
 - name: ensure timezone is set to utc
-  timezone:
+  community.general.timezone:
     name: Etc/UTC
 
 - name: "{{ ansible_distribution|lower }}-specific bootstrap tasks"
-  include: "os-{{ ansible_distribution|lower }}.yml"
+  ansible.builtin.include: "os-{{ ansible_distribution|lower }}.yml"
 
 - name: ensure sshd settings applied
-  import_tasks: sshd.yml
+  ansible.builtin.import_tasks: sshd.yml

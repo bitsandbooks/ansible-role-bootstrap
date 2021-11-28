@@ -1,12 +1,12 @@
 ---
 - name: sshd - ensure x11 forwarding is off
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^X11Forwarding '
     line: 'X11Forwarding no'
 
 - name: sshd - disable root ssh login
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regex: '^#PermitRootLogin '
     line: 'PermitRootLogin no'
