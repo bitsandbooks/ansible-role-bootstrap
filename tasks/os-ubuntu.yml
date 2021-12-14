@@ -30,6 +30,16 @@
   with_items:
     - cloud-init # unneeded after install
 
+- name: "({{ ansible_distribution|lower }}-specific) ensure motd-news service is stopped, disabled and masked"
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+    masked: yes
+  with_items:
+    - motd-news.service
+    - motd-news.timer
+
 - name: "({{ ansible_distribution|lower }}-specific) get rid of annoying help text in `/etc/update-motd.d/`"
   ansible.builtin.file:
     path: "/etc/update-motd.d/{{ item }}"
