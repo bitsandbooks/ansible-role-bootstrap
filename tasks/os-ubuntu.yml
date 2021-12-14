@@ -64,7 +64,7 @@
 - name: "({{ ansible_distribution|lower }}-specific) ensure ssh port is allowed through ufw"
   community.general.ufw:
     rule: allow
-    port: "{{ default_ssh_port }}"
+    name: OpenSSH
     log: yes
 
 - name: "({{ ansible_distribution|lower }}-specific) ensure fail2ban jail.local is present"
