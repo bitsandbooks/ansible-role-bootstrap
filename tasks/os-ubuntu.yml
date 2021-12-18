@@ -11,6 +11,7 @@
     - curl                       # command line HTTP client
     - fail2ban                   # ban denial-of-service network traffic
     - git                        # revision control tool
+    - id-utils                   # provides `gid`
     - python3-pip                # necessary for ansible?
     - python3-venv               # for python virtual environments
     - software-properties-common # provides `add-apt-repository`
