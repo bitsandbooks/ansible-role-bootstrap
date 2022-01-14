@@ -5,10 +5,11 @@
     state: present
   with_items:
     - apt-file                   # list contents of packages
-    - apt-transport-https        # HTTPS support for apt tools
+    - apt-transport-https        # https support for apt tools
+    - at                         # provides `at`
     - bash-completion            # for peace of mind when using terminal
     - ca-certificates            # certificate authority data
-    - curl                       # command line HTTP client
+    - curl                       # command line http client
     - fail2ban                   # ban denial-of-service network traffic
     - git                        # revision control tool
     - id-utils                   # provides `gid`
