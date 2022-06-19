@@ -1,0 +1,15 @@
+---
+- name: "({{ ansible_distribution|lower }}-specific) ensure presence of commonly-used packages selected for install"
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - zsh # shell of choice
+
+- name: "({{ ansible_distribution|lower }}-specific) ensure absence of packages selected for removal"
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: absent
+    autoremove: yes
+  with_items:
+    - cloud-init # unneeded after install
