@@ -1,0 +1,5 @@
+---
+packages_installed:
+  - zsh        # shell of choice
+packages_removed:
+  - cloud_init # unneeded after install

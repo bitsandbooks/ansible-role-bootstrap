@@ -1,0 +1,22 @@
+---
+packages_installed:
+  - apt-file                   # list contents of packages
+  - apt-transport-https        # https support for apt tools
+  - at                         # provides `at`
+  - bash-completion            # for peace of mind when using terminal
+  - ca-certificates            # certificate authority data
+  - curl                       # command line http client
+  - fail2ban                   # ban denial-of-service network traffic
+  - git                        # revision control tool
+  - id-utils                   # provides `gid`
+  - python3-pip                # necessary for ansible?
+  - python3-venv               # for python virtual environments
+  - smartmontools              # for testing storage devs for errors
+  - software-properties-common # provides `add-apt-repository`
+  - tasksel                    # quickly install common package collections
+  - ufw                        # uncomplicated firewall
+  - whois                      # provides `mkpasswd`
+  - vim                        # visual text editor
+  - zsh                        # shell of choice
+packages_removed:
+  - cloud-init                 # unneeded after install

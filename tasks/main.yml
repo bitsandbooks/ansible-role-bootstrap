@@ -1,15 +1,44 @@
 ---
-- name: ensure presence of default group "{{ default_group }}"
+- name: "ensure presence of default group '{{ default_group }}'"
   ansible.builtin.group:
     name: "{{ default_group }}"
     gid: "{{ default_group_gid }}"
 
-- name: ensure timezone is set to utc
-  community.general.timezone:
-    name: Etc/UTC
+- name: ensure common sshd settings applied
+  ansible.builtin.import_tasks: sshd.yml
+
+- name: OS-specific vars and packages
+  tags:
+    - packages
+  block:
+
+  - name: include OS-specific variables
+    ansible.builtin.include_vars: "{{ lookup( 'ansible.builtin.first_found', params ) }}"
+    vars:
+      params:
+        files:
+          - "os-{{ ansible_distribution }}.yml"
+          - "os-{{ ansible_os_family }}.yml"
+          - "main.yml"
+        paths:
+          - "vars"
+
+  - name: "ensure presence of commonly-used packages selected for install"
+    ansible.builtin.package:
+      name: "{{ item }}"
+      state: present
+    loop:
+      - "{{ packages_installed }}"
+    notify:
+      - start fail2ban
+      - start ufw
+
+  - name: "ensure absence of packages selected for removal"
+    ansible.builtin.package:
+      name: "{{ item }}"
+      state: absent
+    loop:
+      - "{{ packages_removed }}"
 
 - name: "{{ ansible_distribution|lower }}-specific bootstrap tasks"
-  ansible.builtin.include: "os-{{ ansible_distribution|lower }}.yml"
-
-- name: ensure sshd settings applied
-  ansible.builtin.import_tasks: sshd.yml
+  ansible.builtin.import_tasks: "os-{{ ansible_distribution|lower }}.yml"

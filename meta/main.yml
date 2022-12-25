@@ -9,6 +9,7 @@ galaxy_info:
       versions:
         - 35
         - 36
+        - 37
     - name: Ubuntu
       versions:
         - xenial
@@ -17,6 +18,7 @@ galaxy_info:
         - hirsute
         - impish
         - jammy
+        - kinetic
   galaxy_tags:
     - bootstrap
 dependencies: []

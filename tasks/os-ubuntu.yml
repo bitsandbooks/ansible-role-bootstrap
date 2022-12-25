@@ -1,79 +1,53 @@
 ---
-- name: "({{ ansible_distribution|lower }}-specific) ensure presence of commonly-used packages selected for install"
-  ansible.builtin.package:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - apt-file                   # list contents of packages
-    - apt-transport-https        # https support for apt tools
-    - at                         # provides `at`
-    - bash-completion            # for peace of mind when using terminal
-    - ca-certificates            # certificate authority data
-    - curl                       # command line http client
-    - fail2ban                   # ban denial-of-service network traffic
-    - git                        # revision control tool
-    - id-utils                   # provides `gid`
-    - python3-pip                # necessary for ansible?
-    - python3-venv               # for python virtual environments
-    - software-properties-common # provides `add-apt-repository`
-    - tasksel                    # quickly install common package collections
-    - ufw                        # uncomplicated firewall
-    - whois                      # provides `mkpasswd`
-    - vim                        # visual text editor
-    - zsh                        # shell of choice
+- block:
+  - name: "({{ ansible_distribution|lower }}-specific) ensure motd-news service is stopped, disabled and masked"
+    ansible.builtin.systemd:
+      name: "{{ item }}"
+      state: stopped
+      enabled: no
+      masked: yes
+    with_items:
+      - motd-news.service
+      - motd-news.timer
+
+  - name: "({{ ansible_distribution|lower }}-specific) get rid of annoying help text in `/etc/update-motd.d/`"
+    ansible.builtin.file:
+      path: "/etc/update-motd.d/{{ item }}"
+      state: absent
+    with_items:
+      - 10-help-text
+      - 50-motd-news
+      - 51-cloudguest
+  tags:
+    - "{{ ansible_distribution|lower }}-motd"
+
+- block:
+  - name: "({{ ansible_distribution|lower }}-specific) ensure ufw is enabled and default outgoing policy is 'allow'"
+    community.general.ufw:
+      state: enabled
+      direction: outgoing
+      policy: allow
+
+  - name: "({{ ansible_distribution|lower }}-specific) ensure ufw is enabled and default incoming policy is 'deny'"
+    community.general.ufw:
+      state: enabled
+      direction: incoming
+      policy: deny
+
+  - name: "({{ ansible_distribution|lower }}-specific) ensure ssh port is allowed through ufw"
+    community.general.ufw:
+      rule: allow
+      name: OpenSSH
+      log: yes
+
+  - name: "({{ ansible_distribution|lower }}-specific) ensure fail2ban jail.local is present"
+    ansible.builtin.copy:
+      src: jail.local.ini
+      dest: /etc/fail2ban/jail.local
+      mode: 0600
+      owner: root
+      group: root
+  tags:
+    - ufw
   notify:
-    - start fail2ban
-    - start ufw
-
-- name: "({{ ansible_distribution|lower }}-specific) ensure absence of packages selected for removal"
-  ansible.builtin.package:
-    name: "{{ item }}"
-    state: absent
-  with_items:
-    - cloud-init # unneeded after install
-
-- name: "({{ ansible_distribution|lower }}-specific) ensure motd-news service is stopped, disabled and masked"
-  ansible.builtin.systemd:
-    name: "{{ item }}"
-    state: stopped
-    enabled: no
-    masked: yes
-  with_items:
-    - motd-news.service
-    - motd-news.timer
-
-- name: "({{ ansible_distribution|lower }}-specific) get rid of annoying help text in `/etc/update-motd.d/`"
-  ansible.builtin.file:
-    path: "/etc/update-motd.d/{{ item }}"
-    state: absent
-  with_items:
-    - 10-help-text
-    - 50-motd-news
-    - 51-cloudguest
-
-- name: "({{ ansible_distribution|lower }}-specific) ensure ufw is enabled and default outgoing policy is 'allow'"
-  community.general.ufw:
-    state: enabled
-    direction: outgoing
-    policy: allow
-
-- name: "({{ ansible_distribution|lower }}-specific) ensure ufw is enabled and default incoming policy is 'deny'"
-  community.general.ufw:
-    state: enabled
-    direction: incoming
-    policy: deny
-
-- name: "({{ ansible_distribution|lower }}-specific) ensure ssh port is allowed through ufw"
-  community.general.ufw:
-    rule: allow
-    name: OpenSSH
-    log: yes
-
-- name: "({{ ansible_distribution|lower }}-specific) ensure fail2ban jail.local is present"
-  ansible.builtin.copy:
-    src: jail.local.txt
-    dest: /etc/fail2ban/jail.local
-    mode: 0600
-    owner: root
-    group: root
-  notify: restart fail2ban
+    - reload ufw
