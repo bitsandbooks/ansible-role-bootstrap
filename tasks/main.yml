@@ -5,7 +5,7 @@
     gid: "{{ default_group_gid }}"
 
 - name: ensure common sshd settings applied
-  ansible.builtin.import_tasks: sshd.yml
+  ansible.builtin.include_tasks: sshd.yml
 
 - name: OS-specific vars and packages
   tags:
@@ -40,5 +40,5 @@
     loop:
       - "{{ packages_removed }}"
 
-- name: "{{ ansible_distribution|lower }}-specific bootstrap tasks"
-  ansible.builtin.import_tasks: "os-{{ ansible_distribution|lower }}.yml"
+- name: "distro-specific bootstrap tasks"
+  ansible.builtin.include_tasks: "os-{{ ansible_distribution|lower }}.yml"
