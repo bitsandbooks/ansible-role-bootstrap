@@ -1,0 +1,15 @@
+---
+
+- name: Firewall tasks
+  tags:
+    - firewall
+  block:
+
+    - name: Ensure firewalld is installed
+      ansible.builtin.dnf:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - firewalld
+      notify:
+        - start firewalld

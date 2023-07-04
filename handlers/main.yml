@@ -10,6 +10,11 @@
     name: fail2ban.service
     state: restarted
 
+- name: start firewalld
+  ansible.builtin.systemd:
+    name: firewalld.service
+    state: started
+
 - name: start ufw
   ansible.builtin.systemd:
     name: ufw.service
