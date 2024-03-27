@@ -23,22 +23,5 @@
         paths:
           - "vars"
 
-  - name: "ensure presence of commonly-used packages selected for install"
-    ansible.builtin.package:
-      name: "{{ item }}"
-      state: present
-    loop:
-      - "{{ packages_installed }}"
-    notify:
-      - start fail2ban
-      - start ufw
-
-  - name: "ensure absence of packages selected for removal"
-    ansible.builtin.package:
-      name: "{{ item }}"
-      state: absent
-    loop:
-      - "{{ packages_removed }}"
-
 - name: "{{ ansible_distribution|lower }}-specific bootstrap tasks"
   ansible.builtin.include_tasks: "os-{{ ansible_distribution|lower }}.yml"
