@@ -1,5 +1,6 @@
 ---
 packages_installed:
+  - epel-release
   - firewalld    # firewall
   - vim-enhanced # text editor of choice
   - zsh          # shell of choice

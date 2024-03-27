@@ -1,53 +1,47 @@
 ---
-- block:
-  - name: "({{ ansible_distribution|lower }}-specific) ensure motd-news service is stopped, disabled and masked"
-    ansible.builtin.systemd:
-      name: "{{ item }}"
-      state: stopped
-      enabled: no
-      masked: yes
-    with_items:
-      - motd-news.service
-      - motd-news.timer
-
-  - name: "({{ ansible_distribution|lower }}-specific) get rid of annoying help text in `/etc/update-motd.d/`"
-    ansible.builtin.file:
-      path: "/etc/update-motd.d/{{ item }}"
-      state: absent
-    with_items:
-      - 10-help-text
-      - 50-motd-news
-      - 51-cloudguest
+- name: MOTD block
   tags:
-    - "{{ ansible_distribution|lower }}-motd"
+    - ubuntu-motd
+  block:
+    - name: "({{ ansible_distribution|lower }}-specific) ensure motd-news service is stopped, disabled and masked"
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        state: stopped
+        enabled: no
+        masked: yes
+      with_items:
+        - motd-news.service
+        - motd-news.timer
 
-- block:
-  - name: "({{ ansible_distribution|lower }}-specific) ensure ufw is enabled and default outgoing policy is 'allow'"
-    community.general.ufw:
-      state: enabled
-      direction: outgoing
-      policy: allow
+    - name: "({{ ansible_distribution|lower }}-specific) get rid of annoying help text in `/etc/update-motd.d/`"
+      ansible.builtin.file:
+        path: "/etc/update-motd.d/{{ item }}"
+        state: absent
+      with_items:
+        - 10-help-text
+        - 50-motd-news
+        - 51-cloudguest
 
-  - name: "({{ ansible_distribution|lower }}-specific) ensure ufw is enabled and default incoming policy is 'deny'"
-    community.general.ufw:
-      state: enabled
-      direction: incoming
-      policy: deny
-
-  - name: "({{ ansible_distribution|lower }}-specific) ensure ssh port is allowed through ufw"
-    community.general.ufw:
-      rule: allow
-      name: OpenSSH
-      log: yes
-
-  - name: "({{ ansible_distribution|lower }}-specific) ensure fail2ban jail.local is present"
-    ansible.builtin.copy:
-      src: jail.local.ini
-      dest: /etc/fail2ban/jail.local
-      mode: 0600
-      owner: root
-      group: root
+- name: UFW block
   tags:
     - ufw
   notify:
     - reload ufw
+  block:
+    - name: "({{ ansible_distribution|lower }}-specific) ensure ufw is enabled and default outgoing policy is 'allow'"
+      community.general.ufw:
+        state: enabled
+        direction: outgoing
+        policy: allow
+
+    - name: "({{ ansible_distribution|lower }}-specific) ensure ufw is enabled and default incoming policy is 'deny'"
+      community.general.ufw:
+        state: enabled
+        direction: incoming
+        policy: deny
+
+    - name: "({{ ansible_distribution|lower }}-specific) ensure ssh port is allowed through ufw"
+      community.general.ufw:
+        rule: allow
+        name: OpenSSH
+        log: yes

@@ -1,11 +1,11 @@
 ---
-- name: "ensure presence of default group '{{ default_group }}'"
+- name: "ensure presence of default group '{{ default_group_name }}'"
   ansible.builtin.group:
-    name: "{{ default_group }}"
+    name: "{{ default_group_name }}"
     gid: "{{ default_group_gid }}"
 
 - name: ensure common sshd settings applied
-  ansible.builtin.include_tasks: sshd.yml
+  ansible.builtin.import_tasks: sshd.yml
 
 - name: OS-specific vars and packages
   tags:
@@ -40,5 +40,5 @@
     loop:
       - "{{ packages_removed }}"
 
-- name: "distro-specific bootstrap tasks"
+- name: "{{ ansible_distribution|lower }}-specific bootstrap tasks"
   ansible.builtin.include_tasks: "os-{{ ansible_distribution|lower }}.yml"

@@ -1,4 +1,4 @@
 ---
-default_group: mygroup
+default_group_name: mygroup
 default_group_gid: 200
 default_ssh_port: 22

@@ -15,6 +15,11 @@
     name: firewalld.service
     state: started
 
+- name: reload firewalld
+  ansible.builtin.systemd:
+    name: firewalld.service
+    state: reload
+
 - name: start ufw
   ansible.builtin.systemd:
     name: ufw.service

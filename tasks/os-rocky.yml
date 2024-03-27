@@ -1,15 +1,21 @@
 ---
-
-- name: Firewall tasks
+- name: package tasks
   tags:
-    - firewall
+    - packages
   block:
 
-    - name: Ensure firewalld is installed
+    - name: ensure presence of commonly-used packages selected for install
       ansible.builtin.dnf:
         name: "{{ item }}"
         state: present
-      with_items:
-        - firewalld
+      loop:
+        - "{{ packages_installed }}"
       notify:
         - start firewalld
+
+    - name: ensure absence of packages selected for removal
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ packages_removed }}"

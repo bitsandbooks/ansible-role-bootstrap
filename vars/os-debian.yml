@@ -1,0 +1,23 @@
+---
+packages_installed:
+  - apt-file                   # list package contents and find which package owns a file
+  - apt-transport-https        # HTTPS support for the package manager
+  - aptitude                   # high-level interface to the package manager
+  - at                         # provides `at`
+  - fail2ban                   # ban denial-of-service network traffic
+  - gdisk                      # partition storage devices
+  - git                        # revision control tool
+  - id-utils                   # provides `gid`
+  - python3-pip                # necessary for ansible?
+  - python3-venv               # for python virtual environments
+  - sg3-utils                  # provides `sg_map`
+  - smartmontools              # test storage devices for errors
+  - software-properties-common # provides `add-apt-repository`
+  - sudo                       # execute a command as another user
+  - tasksel                    # quickly install common package collections
+  - ufw                        # uncomplicated firewall
+  - whois                      # provides `mkpasswd`
+  - vim                        # visual text editor
+  - zsh                        # shell of choice
+packages_removed:
+  - cloud-init                 # unneeded after install

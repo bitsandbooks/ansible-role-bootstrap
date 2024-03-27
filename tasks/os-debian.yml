@@ -1,0 +1,47 @@
+---
+- name: package tasks
+  tags:
+    - packages
+  block:
+
+    - name: ensure presence of commonly-used packages selected for install
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - "{{ packages_installed }}"
+      notify:
+        - start ufw
+        - start fail2ban
+
+    - name: ensure absence of packages selected for removal
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ packages_removed }}"
+
+- name: UFW tasks
+  tags:
+    - ufw
+  notify:
+    - reload ufw
+  block:
+
+    - name: "({{ ansible_distribution|upper }}-ONLY) Ensure UFW is enabled and default outgoing policy is 'allow'"
+      community.general.ufw:
+        direction: outgoing
+        policy: allow
+        state: enabled
+
+    - name: "({{ ansible_distribution|upper }}-ONLY) Ensure UFW is enabled and default incoming policy is 'deny'"
+      community.general.ufw:
+        direction: incoming
+        policy: deny
+        state: enabled
+
+    - name: "({{ ansible_distribution|upper }}-ONLY) Ensure SSH port is allowed through ufw"
+      community.general.ufw:
+        rule: allow
+        name: OpenSSH
+        log: yes
